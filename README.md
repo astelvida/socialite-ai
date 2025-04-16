@@ -28,18 +28,19 @@ pnpm install
 
 2. Create a `.env.local` file in the root directory with your Instagram API credentials:
 
-```
+```env
 INSTAGRAM_APP_ID=your_app_id
 INSTAGRAM_APP_SECRET=your_app_secret
 INSTAGRAM_REDIRECT_URI=http://localhost:3000/api/auth/callback/instagram
 ```
 
 3. Configure your Instagram App:
+
    - Go to [Meta Developer Portal](https://developers.facebook.com/)
    - Create a new app or use an existing one
    - Add the Instagram Basic Display product to your app
    - Add the following to Valid OAuth Redirect URIs:
-     - `http://localhost:3000/api/auth/callback/instagram`
+     - `http://localhost:3000/api/instagram/callback`
    - Copy your App ID and App Secret to your `.env.local` file
 
 4. Run the development server:
@@ -68,7 +69,7 @@ pnpm dev
 Use the `InstagramFeed` component in any page:
 
 ```jsx
-import { InstagramFeed } from '@/components/instagram/InstagramFeed';
+import { InstagramFeed } from "@/components/instagram/InstagramFeed";
 
 export default function YourPage() {
   return (
