@@ -9,12 +9,17 @@ interface InstagramLongLivedTokenResponse {
   expires_in: number;
 }
 
-interface InstagramUserProfile {
-  id: string;
+export interface InstagramUserProfile {
+  id: string; // this is the scoped id of the instagram account
   username: string;
+  user_id: string; // this is the user id of the instagram account
+  account_type: string;
+  profile_picture_url: string;
+  media_count: number;
+  name: string; // this is the name of the instagram account
 }
 
-interface InstagramMedia {
+export interface InstagramMedia {
   id: string;
   caption?: string;
   media_type: string;
@@ -31,6 +36,7 @@ export interface InstagramData {
   error?: string;
   token?: string;
   longLivedToken?: string;
+  expires_in?: number;
 }
 
 /**
@@ -93,11 +99,11 @@ export const getInstagramAccessToken = async (code: string): Promise<InstagramTo
   }
 
   // Parse the response which contains short-lived token
-  const tokenData = await response.json();
-  console.log("tokenData", tokenData);
+  const data = await response.json();
+  console.log("access token data", data);
   return {
-    access_token: tokenData.access_token,
-    user_id: tokenData.user_id,
+    access_token: data.access_token,
+    user_id: data.user_id,
   };
 };
 
@@ -124,7 +130,7 @@ export const getLongLivedAccessToken = async (
   }
 
   const data = await response.json();
-  console.log("data", data);
+  console.log("long-lived token data", data);
   return data;
 };
 
@@ -145,7 +151,7 @@ export const refreshLongLivedToken = async (
   }
 
   const data = await response.json();
-  console.log("data", data);
+  console.log("refresh token data", data);
   return data;
 };
 
@@ -154,10 +160,10 @@ export const refreshLongLivedToken = async (
  * Using v22.0 as specified in the documentation
  */
 export const getInstagramUserProfile = async (
-  accessToken: string,
-  userId: string
+  accessToken: string
+  // userId: string
 ): Promise<InstagramUserProfile> => {
-  const url = `https://graph.instagram.com/me?fields=id,username,user_id&access_token=${accessToken}`;
+  const url = `https://graph.instagram.com/v22.0/me?fields=id,username,profile_picture_url,user_id,account_type,media_count&access_token=${accessToken}`;
   console.log("url", url);
   const response = await fetch(url);
 
@@ -166,7 +172,10 @@ export const getInstagramUserProfile = async (
     throw new Error(`Failed to get user profile: ${JSON.stringify(error)}`);
   }
 
-  return response.json();
+  const data = await response.json();
+  console.log("user profile data", data);
+
+  return data;
 };
 
 /**
@@ -174,10 +183,10 @@ export const getInstagramUserProfile = async (
  * Using v22.0 as specified in the documentation
  */
 export const getInstagramMedia = async (
-  accessToken: string,
-  userId: string
+  accessToken: string
+  // userId: string
 ): Promise<InstagramMedia[]> => {
-  const url = `https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp,username&access_token=${accessToken}`;
+  const url = `https://graph.instagram.com/v22.0/me/media?fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp,username&limit=6&access_token=${accessToken}`;
 
   const response = await fetch(url);
 
@@ -187,5 +196,6 @@ export const getInstagramMedia = async (
   }
 
   const data = await response.json();
-  return data.data;
+  console.log("media data", data);
+  return data;
 };

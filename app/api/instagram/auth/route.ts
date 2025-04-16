@@ -1,7 +1,12 @@
 import { getInstagramAuthUrl } from "@/lib/instagram";
+import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
+  const { userId } = await auth();
+  if (!userId) {
+    return NextResponse.json({ error: "User not found" }, { status: 401 });
+  }
   try {
     // Get the redirect parameter if present
     const searchParams = request.nextUrl.searchParams;
@@ -13,6 +18,7 @@ export async function GET(request: NextRequest) {
     // Add the redirect parameter to the callback URL
     const redirectUrl = new URL(authUrl);
     redirectUrl.searchParams.append("state", redirectTo);
+    redirectUrl.searchParams.append("appUserId", userId);
 
     return NextResponse.redirect(redirectUrl);
   } catch (error) {

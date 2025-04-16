@@ -12,7 +12,6 @@ import { IconType } from "react-icons";
 import { FaFacebookF, FaInstagram, FaTwitter, FaWhatsapp } from "react-icons/fa";
 import { FaTableCells } from "react-icons/fa6";
 import { SiGooglesheets } from "react-icons/si";
-
 // Define integration type
 interface Integration {
   id: string;
@@ -81,6 +80,7 @@ const availableIntegrations: Integration[] = [
 
 export function IntegrationsView() {
   const router = useRouter();
+
   const [searchQuery, setSearchQuery] = useState("");
   const [integrationsState, setIntegrationsState] = useState<Integration[]>([
     ...integrations,
@@ -89,28 +89,38 @@ export function IntegrationsView() {
 
   // Check if we have any connected integrations in localStorage
   useEffect(() => {
-    // Check for Instagram connection
-    const instagramSession = localStorage.getItem("instagram_session");
+    const checkInstagramConnection = async () => {
+      // Check for Instagram connection
 
-    console.log("Integrations state:", integrationsState);
+      // const instagramSessionFromRedis = await getUserSession(userId);
+      const instagramSession = localStorage.getItem("instagram_session");
 
-    if (instagramSession) {
-      try {
-        const { profile } = JSON.parse(instagramSession);
-        if (profile && profile.id) {
-          // Update the connected status for Instagram
-          setIntegrationsState((prevState) =>
-            prevState.map((integration) =>
-              integration.id === "instagram" ? { ...integration, connected: true } : integration
-            )
-          );
+      let instagramSessionData: any;
+      if (instagramSession) {
+        try {
+          instagramSessionData = JSON.parse(instagramSession);
+          if (
+            instagramSessionData &&
+            instagramSessionData.profile &&
+            instagramSessionData.profile.id
+          ) {
+            // Update the connected status for Instagram
+            setIntegrationsState((prevState) =>
+              prevState.map((integration) =>
+                integration.id === "instagram" ? { ...integration, connected: true } : integration
+              )
+            );
+          }
+
+          console.log("instagramSessionData", instagramSessionData);
+        } catch (err) {
+          console.error("Error parsing Instagram session:", err);
         }
-        console.log("Instagram session:", instagramSession);
-      } catch (err) {
-        console.error("Error parsing Instagram session:", err);
       }
-    }
-  }, []);
+    };
+
+    checkInstagramConnection();
+  }, []); // Empty dependency array to run only once
 
   const filteredIntegrations = integrationsState.filter((integration) =>
     integration.name.toLowerCase().includes(searchQuery.toLowerCase())

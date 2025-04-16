@@ -1,64 +1,64 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useIsMobile } from "@/hooks/use-mobile"
-import { createContext, useContext, useEffect, useState } from "react"
+import { useIsMobile } from "@/hooks/use-mobile";
+import { createContext, useContext, useEffect, useState } from "react";
 
 type SidebarContextType = {
-  isOpen: boolean
-  isMobile: boolean
-  toggleSidebar: () => void
-  closeSidebar: () => void
-}
+  isOpen: boolean;
+  isMobile: boolean;
+  toggleSidebar: () => void;
+  closeSidebar: () => void;
+};
 
-const SidebarContext = createContext<SidebarContextType | undefined>(undefined)
+const SidebarContext = createContext<SidebarContextType | undefined>(undefined);
 
 export function SidebarProvider({ children }: { children: React.ReactNode }) {
-  const isMobile = useIsMobile()
-  const [isOpen, setIsOpen] = useState(true)
+  const isMobile = useIsMobile();
+  const [isOpen, setIsOpen] = useState(true);
 
   // Load sidebar state from localStorage on mount
   useEffect(() => {
-    const savedState = localStorage.getItem("sidebarOpen")
+    const savedState = localStorage.getItem("sidebarOpen");
     if (savedState !== null) {
-      setIsOpen(savedState === "true")
+      setIsOpen(savedState === "true");
     }
-  }, [])
+  }, []);
 
   // Close sidebar by default on mobile, respect saved state on desktop
   useEffect(() => {
     if (isMobile) {
-      setIsOpen(false)
+      setIsOpen(false);
     }
-  }, [isMobile])
+  }, [isMobile]);
 
   const toggleSidebar = () => {
     setIsOpen((prev) => {
-      const newState = !prev
+      const newState = !prev;
       // Save state to localStorage (only on desktop)
       if (!isMobile) {
-        localStorage.setItem("sidebarOpen", String(newState))
+        localStorage.setItem("sidebarOpen", String(newState));
       }
-      return newState
-    })
-  }
+      return newState;
+    });
+  };
 
   const closeSidebar = () => {
-    setIsOpen(false)
-  }
+    setIsOpen(false);
+  };
 
   return (
     <SidebarContext.Provider value={{ isOpen, isMobile, toggleSidebar, closeSidebar }}>
       {children}
     </SidebarContext.Provider>
-  )
+  );
 }
 
 export function useSidebar() {
-  const context = useContext(SidebarContext)
+  const context = useContext(SidebarContext);
   if (context === undefined) {
-    throw new Error("useSidebar must be used within a SidebarProvider")
+    throw new Error("useSidebar must be used within a SidebarProvider");
   }
-  return context
+  return context;
 }

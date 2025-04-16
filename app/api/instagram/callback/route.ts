@@ -5,12 +5,20 @@ import {
   getLongLivedAccessToken,
   InstagramData,
 } from "@/lib/instagram";
+import { storeToken, storeUserSession } from "@/lib/store-token";
+import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
+  const { userId } = await auth();
+  console.log("GET callback received for user", userId);
+  if (!userId) {
+    console.error("User not found clerk_userId", userId);
+  }
   const searchParams = request.nextUrl.searchParams;
   const code = searchParams.get("code");
   const state = searchParams.get("state");
+  const appUserId = searchParams.get("appUserId") || userId;
   const redirectTo = state || "/dashboard/integrations";
 
   if (!code) {
@@ -18,24 +26,38 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    // Step 1: Exchange authorization code for a short-lived access token
+    // Step 1: Exchange authorization code for a short-lived access tokens
     const tokenResponse = await getInstagramAccessToken(code);
-    const { access_token: shortLivedToken, user_id } = tokenResponse;
+    const { access_token: shortLivedToken } = tokenResponse; // user_id is the user id of the instagram account
 
     // Step 2: Exchange the short-lived token for a long-lived token
     // This must be done on the server as it requires the app secret
-    const longLivedTokenResponse = await getLongLivedAccessToken(shortLivedToken);
-    const longLivedToken = longLivedTokenResponse.access_token;
-    console.log("longLivedToken", longLivedToken);
+    const { access_token: longLivedToken, expires_in } =
+      await getLongLivedAccessToken(shortLivedToken);
+
     // Step 3: Fetch user profile and media using the long-lived token
-    const profile = await getInstagramUserProfile(longLivedToken, user_id);
-    const media = await getInstagramMedia(longLivedToken, user_id);
+    const profile = await getInstagramUserProfile(longLivedToken);
+
+    const media = await getInstagramMedia(longLivedToken);
+
+    if (!appUserId) {
+      console.error("User not found appUserId", appUserId);
+      return NextResponse.json({ error: "User not found" }, { status: 401 });
+    }
+
+    await storeToken(appUserId, {
+      token: longLivedToken,
+      tokenExpires: Date.now() + Number(expires_in) * 1000,
+    });
+
+    await storeUserSession(appUserId, { profile, media });
 
     const responseData: InstagramData = {
       profile,
       media,
       token: shortLivedToken, // Including for reference, but should not be used
       longLivedToken, // This is what should be used for API calls
+      expires_in,
     };
 
     // Redirect to the Instagram page with data in query params
