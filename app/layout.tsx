@@ -1,7 +1,12 @@
-import type React from "react"
-import { Toaster } from "@/components/ui/sonner"
-import { SidebarProvider } from "@/components/sidebar/sidebar-context"
-import "@/app/globals.css"
+import "@/app/globals.css";
+import { SidebarProvider } from "@/components/sidebar/sidebar-context";
+import { Toaster } from "@/components/ui/sonner";
+import type React from "react";
+
+export const metadata = {
+  title: "Smart AI",
+  description: "Smart AI",
+};
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -11,12 +16,5 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Toaster position="top-right" />
       </body>
     </html>
-  )
+  );
 }
-
-
-import './globals.css'
-
-export const metadata = {
-      generator: 'v0.dev'
-    };
