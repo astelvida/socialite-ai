@@ -1,13 +1,13 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { SidebarToggle } from "@/components/sidebar/sidebar"
-import { useSidebar } from "@/components/sidebar/sidebar-context"
-import { cn } from "@/lib/utils"
+import { SidebarToggle } from "@/components/sidebar/sidebar";
+import { useSidebar } from "@/components/sidebar/sidebar-context";
+import { cn } from "@/lib/utils";
 
 export function MainContent({ children }: { children: React.ReactNode }) {
-  const { isOpen, isMobile } = useSidebar()
+  const { isOpen, isMobile } = useSidebar();
 
   return (
     <main
@@ -18,11 +18,11 @@ export function MainContent({ children }: { children: React.ReactNode }) {
         // Reset padding when sidebar is open
         isOpen && !isMobile && "pl-[200px]",
         // No padding on mobile
-        isMobile && "pl-0",
+        isMobile && "pl-0"
       )}
     >
       <SidebarToggle />
       {children}
     </main>
-  )
+  );
 }

@@ -1,5 +1,3 @@
-import { url } from "inspector";
-
 interface InstagramTokenResponse {
   access_token: string;
   user_id: string;
@@ -159,7 +157,7 @@ export const getInstagramUserProfile = async (
   accessToken: string,
   userId: string
 ): Promise<InstagramUserProfile> => {
-  const url = `https://graph.instagram.com/v22.0/me?fields=id,username,user_id&access_token=${accessToken}`;
+  const url = `https://graph.instagram.com/me?fields=id,username,user_id&access_token=${accessToken}`;
   console.log("url", url);
   const response = await fetch(url);
 
@@ -179,7 +177,7 @@ export const getInstagramMedia = async (
   accessToken: string,
   userId: string
 ): Promise<InstagramMedia[]> => {
-  const url = `https://graph.instagram.com/v22.0/me/media?fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp,username&access_token=${accessToken}`;
+  const url = `https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp,username&access_token=${accessToken}`;
 
   const response = await fetch(url);
 

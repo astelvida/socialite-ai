@@ -1,14 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -42,7 +35,7 @@ const integrations: Integration[] = [
     color: "text-pink-500",
     bgColor: "bg-pink-500/10",
     connected: false,
-    detailsPath: "/integrations/instagram",
+    detailsPath: "/dashboard/integrations/instagram",
   },
   {
     id: "whatsapp",
@@ -99,6 +92,8 @@ export function IntegrationsView() {
     // Check for Instagram connection
     const instagramSession = localStorage.getItem("instagram_session");
 
+    console.log("Integrations state:", integrationsState);
+
     if (instagramSession) {
       try {
         const { profile } = JSON.parse(instagramSession);
@@ -110,6 +105,7 @@ export function IntegrationsView() {
             )
           );
         }
+        console.log("Instagram session:", instagramSession);
       } catch (err) {
         console.error("Error parsing Instagram session:", err);
       }

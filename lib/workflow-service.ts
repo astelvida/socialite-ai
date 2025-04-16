@@ -1,11 +1,12 @@
-import { type Workflow, TriggerType, ResponseType } from "@/lib/types"
+import { type Workflow, ResponseType, TriggerType } from "@/lib/types";
 
 // This service would handle the actual automation logic
 // In a real app, this would connect to a backend API
 export class WorkflowService {
-  private static instance: WorkflowService
-  private workflows: Workflow[] = []
-  private nextId = 1
+  private static instance: WorkflowService;
+
+  private workflows: Workflow[] = [];
+  private nextId = 1;
 
   private constructor() {
     // Initialize with some sample data
@@ -73,28 +74,28 @@ export class WorkflowService {
         createdAt: new Date().toISOString(),
         isActive: false,
       },
-    ]
+    ];
   }
 
   public static getInstance(): WorkflowService {
     if (!WorkflowService.instance) {
-      WorkflowService.instance = new WorkflowService()
+      WorkflowService.instance = new WorkflowService();
     }
-    return WorkflowService.instance
+    return WorkflowService.instance;
   }
 
   public getWorkflows(): Workflow[] {
-    return this.workflows
+    return this.workflows;
   }
 
   public getWorkflow(id: number | string): Workflow | undefined {
-    const numericId = typeof id === "string" ? Number.parseInt(id, 10) : id
-    return this.workflows.find((workflow) => workflow.id === numericId)
+    const numericId = typeof id === "string" ? Number.parseInt(id, 10) : id;
+    return this.workflows.find((workflow) => workflow.id === numericId);
   }
 
   public createEmptyWorkflow(): number {
     // Create a new empty workflow with default values
-    const newId = this.nextId++
+    const newId = this.nextId++;
 
     const newWorkflow: Workflow = {
       id: newId,
@@ -115,48 +116,48 @@ export class WorkflowService {
       ],
       createdAt: new Date().toISOString(),
       isActive: false,
-    }
+    };
 
-    this.workflows.push(newWorkflow)
+    this.workflows.push(newWorkflow);
 
     // Log for debugging
-    console.log(`Created new workflow with ID: ${newId}`)
-    console.log(`Total workflows: ${this.workflows.length}`)
-    console.log(`Workflow exists: ${this.getWorkflow(newId) !== undefined}`)
+    console.log(`Created new workflow with ID: ${newId}`);
+    console.log(`Total workflows: ${this.workflows.length}`);
+    console.log(`Workflow exists: ${this.getWorkflow(newId) !== undefined}`);
 
-    return newId
+    return newId;
   }
 
   public createWorkflow(workflow: Workflow): Workflow {
-    const newId = this.nextId++
+    const newId = this.nextId++;
     const newWorkflow = {
       ...workflow,
       id: newId,
       createdAt: workflow.createdAt || new Date().toISOString(),
-    }
-    this.workflows.push(newWorkflow)
-    return newWorkflow
+    };
+    this.workflows.push(newWorkflow);
+    return newWorkflow;
   }
 
   public updateWorkflow(id: number, workflow: Workflow): Workflow {
-    const index = this.workflows.findIndex((w) => w.id === id)
+    const index = this.workflows.findIndex((w) => w.id === id);
     if (index === -1) {
-      throw new Error(`Workflow with id ${id} not found`)
+      throw new Error(`Workflow with id ${id} not found`);
     }
 
     const updatedWorkflow = {
       ...workflow,
       id,
-    }
+    };
 
-    this.workflows[index] = updatedWorkflow
-    return updatedWorkflow
+    this.workflows[index] = updatedWorkflow;
+    return updatedWorkflow;
   }
 
   public deleteWorkflow(id: number): void {
-    const index = this.workflows.findIndex((w) => w.id === id)
+    const index = this.workflows.findIndex((w) => w.id === id);
     if (index !== -1) {
-      this.workflows.splice(index, 1)
+      this.workflows.splice(index, 1);
     }
   }
 
@@ -164,32 +165,32 @@ export class WorkflowService {
   public async processMessage(message: string, type: "comment" | "dm"): Promise<string | null> {
     // Find a workflow that matches this message
     for (const workflow of this.workflows) {
-      if (!workflow.isActive) continue
+      if (!workflow.isActive) continue;
 
       for (const trigger of workflow.triggers) {
         if (trigger.type === type) {
           // Check if any keywords match
           const matchesKeyword = trigger.keywords.some((keyword) =>
-            message.toLowerCase().includes(keyword.toLowerCase()),
-          )
+            message.toLowerCase().includes(keyword.toLowerCase())
+          );
 
           if (matchesKeyword) {
             // We found a match, now generate a response
-            const response = workflow.responses[0]
+            const response = workflow.responses[0];
 
             if (response.type === ResponseType.FIXED_MESSAGE) {
-              return response.content || ""
+              return response.content || "";
             } else if (response.type === ResponseType.AI_CHATBOT) {
               // In a real app, this would call an AI service
-              return `AI response based on: ${response.aiPrompt}`
+              return `AI response based on: ${response.aiPrompt}`;
             }
           }
         }
       }
     }
 
-    return null // No matching workflow found
+    return null; // No matching workflow found
   }
 }
 
-export const workflowService = WorkflowService.getInstance()
+export const workflowService = WorkflowService.getInstance();

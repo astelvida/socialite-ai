@@ -5,7 +5,7 @@ export async function GET(request: NextRequest) {
   try {
     // Get the redirect parameter if present
     const searchParams = request.nextUrl.searchParams;
-    const redirectTo = searchParams.get("redirect") || "/integrations";
+    const redirectTo = searchParams.get("redirect") || "/dashboard/integrations";
 
     // Generate the Instagram auth URL
     const authUrl = getInstagramAuthUrl();

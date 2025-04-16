@@ -4,10 +4,10 @@ export default function NotFound() {
       <div className="text-center">
         <h1 className="text-4xl font-bold mb-4">404 - Page Not Found</h1>
         <p className="text-gray-400 mb-8">
-          The automation you're looking for doesn't exist or has been removed.
+          The automation you&apos;re looking for doesn&apos;t exist or has been removed.
         </p>
-        <a href="/automations" className="text-blue-400 hover:underline">
-          Return to Automations
+        <a href="/dashboard" className="text-blue-400 hover:underline">
+          Return to dashboard
         </a>
       </div>
     </div>

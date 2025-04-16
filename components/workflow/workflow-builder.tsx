@@ -1,15 +1,15 @@
 "use client"
 
-import { useState } from "react"
-import { Pencil, Play } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { TriggerSection } from "@/components/workflow/trigger-section"
 import { ResponseSection } from "@/components/workflow/response-section"
-import { type Workflow, TriggerType, ResponseType } from "@/lib/types"
-import { workflowService } from "@/lib/workflow-service"
-import { useRouter } from "next/navigation"
-import { toast } from "sonner"
+import { TriggerSection } from "@/components/workflow/trigger-section"
 import { useIsMobile } from "@/hooks/use-mobile"
+import { type Workflow, ResponseType, TriggerType } from "@/lib/types"
+import { workflowService } from "@/lib/workflow-service"
+import { Pencil, Play } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { useState } from "react"
+import { toast } from "sonner"
 
 interface WorkflowBuilderProps {
   initialWorkflow?: Workflow
@@ -86,7 +86,7 @@ export function WorkflowBuilder({ initialWorkflow, workflowId }: WorkflowBuilder
           description: "Your automation has been created successfully.",
         })
       }
-      router.push("/automations")
+      router.push("/dashboard/automations");
     } catch (error) {
       toast.error("Error", {
         description: "There was an error saving your automation.",

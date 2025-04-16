@@ -1,45 +1,56 @@
-"use client"
+"use client";
 
-import { ArrowRight, BarChart2, Search, Zap } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Input } from "@/components/ui/input"
-import { ActivityChart } from "@/components/dashboard/activity-chart"
-import { useRouter } from "next/navigation"
-import { workflowService } from "@/lib/workflow-service"
-import { toast } from "sonner"
-import { useState } from "react"
+import { ActivityChart } from "@/components/dashboard/activity-chart";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { workflowService } from "@/lib/workflow-service";
+import { ArrowRight, BarChart2, Search, Zap } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export function DashboardView() {
-  const router = useRouter()
-  const [isCreating, setIsCreating] = useState(false)
+  const router = useRouter();
+  const [isCreating, setIsCreating] = useState(false);
 
   const handleCreateAutomation = () => {
-    setIsCreating(true)
+    setIsCreating(true);
     try {
       // Create a new empty workflow and get its ID
-      const newWorkflowId = workflowService.createEmptyWorkflow()
+      const newWorkflowId = workflowService.createEmptyWorkflow();
 
       // Show success toast
       toast.success("New automation created", {
         description: "You can now configure your automation.",
-      })
+      });
 
       // Add a small delay before redirecting to ensure the workflow is created
       setTimeout(() => {
         // Redirect to the new workflow's detail page
-        router.push(`/automations/${newWorkflowId}`)
-      }, 100)
+        router.push(`/dashboard/automations/${newWorkflowId}`);
+      }, 100);
     } catch (error) {
-      console.error("Error creating automation:", error)
+      console.error("Error creating automation:", error);
       toast.error("Error creating automation", {
         description: "There was a problem creating your automation. Please try again.",
-      })
+      });
     } finally {
-      setIsCreating(false)
+      setIsCreating(false);
     }
-  }
+  };
+
+  useEffect(() => {
+    if (isCreating) {
+      console.log("fetching automations");
+      const fetchAutomations = async () => {
+        // const automations = await workflowService.getAutomations();
+        // console.log("Automations:", automations);
+      };
+      fetchAutomations();
+    }
+  }, []);
 
   return (
     <div className="p-6">
@@ -52,7 +63,11 @@ export function DashboardView() {
             prefix={<Search className="h-4 w-4 text-gray-400" />}
           />
         </div>
-        <Button className="bg-blue-600 hover:bg-blue-700" onClick={handleCreateAutomation} disabled={isCreating}>
+        <Button
+          className="bg-blue-600 hover:bg-blue-700"
+          onClick={handleCreateAutomation}
+          disabled={isCreating}
+        >
           <Zap className="h-4 w-4 mr-2" />
           {isCreating ? "Creating..." : "Create an Automation"}
         </Button>
@@ -68,10 +83,14 @@ export function DashboardView() {
           <Card className="bg-gradient-to-br from-blue-900 to-blue-950 border-gray-800">
             <CardHeader>
               <CardTitle>Set-up Auto Replies</CardTitle>
-              <CardDescription className="text-gray-300">Deliver a product lineup through Instagram DM</CardDescription>
+              <CardDescription className="text-gray-300">
+                Deliver a product lineup through Instagram DM
+              </CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-gray-300 mb-4">Get products in front of your followers in as many places</p>
+              <p className="text-sm text-gray-300 mb-4">
+                Get products in front of your followers in as many places
+              </p>
               <div className="flex justify-end">
                 <Button
                   variant="ghost"
@@ -88,10 +107,14 @@ export function DashboardView() {
           <Card className="bg-gradient-to-br from-blue-900 to-blue-950 border-gray-800">
             <CardHeader>
               <CardTitle>Answer Questions with AI</CardTitle>
-              <CardDescription className="text-gray-300">Identify and respond to queries with AI</CardDescription>
+              <CardDescription className="text-gray-300">
+                Identify and respond to queries with AI
+              </CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-gray-300 mb-4">The intention of the message will be automatically detected</p>
+              <p className="text-sm text-gray-300 mb-4">
+                The intention of the message will be automatically detected
+              </p>
               <div className="flex justify-end">
                 <Button
                   variant="ghost"
@@ -108,10 +131,14 @@ export function DashboardView() {
           <Card className="bg-gradient-to-br from-blue-900 to-blue-950 border-gray-800">
             <CardHeader>
               <CardTitle>Answer Questions with AI</CardTitle>
-              <CardDescription className="text-gray-300">Identify and respond to queries with AI</CardDescription>
+              <CardDescription className="text-gray-300">
+                Identify and respond to queries with AI
+              </CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-gray-300 mb-4">The intention of the message will be automatically detected</p>
+              <p className="text-sm text-gray-300 mb-4">
+                The intention of the message will be automatically detected
+              </p>
               <div className="flex justify-end">
                 <Button
                   variant="ghost"
@@ -174,5 +201,5 @@ export function DashboardView() {
         </Card>
       </div>
     </div>
-  )
+  );
 }

@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const code = searchParams.get("code");
   const state = searchParams.get("state");
-  const redirectTo = state || "/integrations";
+  const redirectTo = state || "/dashboard/integrations";
 
   if (!code) {
     return NextResponse.json({ error: "Authorization code is missing" }, { status: 400 });

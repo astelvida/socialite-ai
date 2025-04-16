@@ -3,8 +3,8 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useInstagramToken } from "@/hooks/useInstagramToken";
-import { getInstagramMedia, getInstagramUserProfile } from "@/lib/instagram";
+import { useInstagramToken } from "@/hooks/use-instagram-token";
+import { getInstagramMedia } from "@/lib/instagram";
 import { useEffect, useState } from "react";
 
 interface InstagramMedia {
@@ -144,7 +144,7 @@ export function InstagramFeed({ limit = 6, username, loadFromApi = false }: Inst
       <div className="text-center py-8">
         <p className="text-red-500 mb-4">{error}</p>
         <Button asChild>
-          <a href="/integrations">Connect Instagram</a>
+          <a href="/dashboard/integrations">Connect Instagram</a>
         </Button>
       </div>
     );

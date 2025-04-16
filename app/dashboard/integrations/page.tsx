@@ -1,8 +1,6 @@
 "use client";
 
 import { IntegrationsView } from "@/components/integrations/integrations-view";
-import { MainContent } from "@/components/layout/main-content";
-import { Sidebar } from "@/components/sidebar/sidebar";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { toast } from "sonner";
@@ -32,7 +30,7 @@ export default function IntegrationsPage() {
         localStorage.setItem("instagram_session", JSON.stringify(sessionData));
 
         // Remove data from URL without refreshing
-        window.history.replaceState({}, document.title, "/integrations");
+        window.history.replaceState({}, document.title, "/dashboard/integrations");
 
         // Show success toast
         toast.success(`Successfully connected to Instagram as @${data.profile.username}`);
@@ -45,16 +43,9 @@ export default function IntegrationsPage() {
       toast.error(`Instagram error: ${instagramError}`);
 
       // Remove error from URL without refreshing
-      window.history.replaceState({}, document.title, "/integrations");
+      window.history.replaceState({}, document.title, "/dashboard/integrations");
     }
   }, [searchParams]);
 
-  return (
-    <div className="flex h-screen bg-[#1a1a1e] text-white">
-      <Sidebar />
-      <MainContent>
-        <IntegrationsView />
-      </MainContent>
-    </div>
-  );
+  return <IntegrationsView />;
 }
