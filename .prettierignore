@@ -1,6 +1,6 @@
 src/
 components/ui/
-credentials/
 .vscode/
 .vercel/
 .next/
+.env

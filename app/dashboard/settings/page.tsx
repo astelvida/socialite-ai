@@ -1,4 +1,4 @@
-import { fakeFetch } from "@/lib/utils";
+import { fakeFetch } from "@/lib/helpers";
 import { BillingPlans } from "./billing-plans";
 
 export default async function SettingsPage() {

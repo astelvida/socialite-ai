@@ -29,11 +29,6 @@ next-env.d.ts
 credentials/
 
 src/
-# .vscode/
-.vercel/
-src/
-# components/ui/
 credentials/
-# .vscode/
 .vercel/
 .next/

@@ -57,7 +57,7 @@ export const getInstagramAuthUrl = (): string => {
     "instagram_business_basic",
     "instagram_business_content_publish",
     "instagram_business_manage_comments",
-    "instagram_business_manage_messages",
+    "instagram_business_manage_messages"
   ].join(",");
   console.log("scopes", scopes);
 
@@ -84,15 +84,15 @@ export const getInstagramAccessToken = async (code: string): Promise<InstagramTo
     client_secret: appSecret,
     grant_type: "authorization_code",
     redirect_uri: redirectUri,
-    code,
+    code
   });
 
   const response = await fetch(`https://api.instagram.com/oauth/access_token`, {
     method: "POST",
     headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
+      "Content-Type": "application/x-www-form-urlencoded"
     },
-    body: params.toString(),
+    body: params.toString()
   });
 
   if (!response.ok) {
@@ -158,6 +158,8 @@ export const getInstagramUserProfile = async (
   accessToken: string
   // userId: string
 ): Promise<InstagramUserProfile> => {
+  console.log("GET USER PROFILE");
+
   const fields = "id,user_id,username,name,profile_picture_url,account_type,follows_count,followers_count,media_count";
 
   const url = `https://graph.instagram.com/v22.0/me?fields=${fields}&access_token=${accessToken}`;

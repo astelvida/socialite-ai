@@ -12,6 +12,7 @@
         "mode": "auto"
       }
     ],
-    "eslint.debug": true
+    "eslint.debug": true,
+    "prisma.fileWatcher": true
   }
 }

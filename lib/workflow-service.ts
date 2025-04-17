@@ -19,18 +19,18 @@ export class WorkflowService {
             type: TriggerType.COMMENT,
             description: "User comments on my post",
             keywords: ["Yes", "Lets Go", "Interested", "Where do I Start?"],
-            additionalInfo: "Asking about where to get started or how should they proceed",
-          },
+            additionalInfo: "Asking about where to get started or how should they proceed"
+          }
         ],
         responses: [
           {
             type: ResponseType.FIXED_MESSAGE,
             content:
-              "Great to hear back from you, the link to our website is figma.com. Let us know what do you think about it. Thanks and have a great day!",
-          },
+              "Great to hear back from you, the link to our website is figma.com. Let us know what do you think about it. Thanks and have a great day!"
+          }
         ],
         createdAt: new Date().toISOString(),
-        isActive: true,
+        isActive: true
       },
       {
         id: this.nextId++,
@@ -40,18 +40,18 @@ export class WorkflowService {
             type: TriggerType.DM,
             description: "User asks about product features",
             keywords: ["How does it work", "Features", "What can it do", "Pricing"],
-            additionalInfo: "Questions about product functionality and pricing",
-          },
+            additionalInfo: "Questions about product functionality and pricing"
+          }
         ],
         responses: [
           {
             type: ResponseType.FIXED_MESSAGE,
             content:
-              "Thanks for your interest! Our product offers automated Instagram responses, AI-powered messaging, and analytics. Visit our website at example.com/pricing for detailed pricing information.",
-          },
+              "Thanks for your interest! Our product offers automated Instagram responses, AI-powered messaging, and analytics. Visit our website at example.com/pricing for detailed pricing information."
+          }
         ],
         createdAt: new Date().toISOString(),
-        isActive: true,
+        isActive: true
       },
       {
         id: this.nextId++,
@@ -61,19 +61,19 @@ export class WorkflowService {
             type: TriggerType.DM,
             description: "User needs help or support",
             keywords: ["Help", "Support", "Not working", "Issue", "Problem"],
-            additionalInfo: "Support requests and troubleshooting",
-          },
+            additionalInfo: "Support requests and troubleshooting"
+          }
         ],
         responses: [
           {
             type: ResponseType.AI_CHATBOT,
             aiPrompt:
-              "You are a helpful support assistant. Help the user troubleshoot their issue with our Instagram automation tool.",
-          },
+              "You are a helpful support assistant. Help the user troubleshoot their issue with our Instagram automation tool."
+          }
         ],
         createdAt: new Date().toISOString(),
-        isActive: false,
-      },
+        isActive: false
+      }
     ];
   }
 
@@ -90,7 +90,7 @@ export class WorkflowService {
 
   public getWorkflow(id: number | string): Workflow | undefined {
     const numericId = typeof id === "string" ? Number.parseInt(id, 10) : id;
-    return this.workflows.find((workflow) => workflow.id === numericId);
+    return this.workflows.find(workflow => workflow.id === numericId);
   }
 
   public createEmptyWorkflow(): number {
@@ -105,17 +105,17 @@ export class WorkflowService {
           type: TriggerType.COMMENT,
           description: "User comments on my post",
           keywords: ["Yes", "Interested"],
-          additionalInfo: "Initial trigger",
-        },
+          additionalInfo: "Initial trigger"
+        }
       ],
       responses: [
         {
           type: ResponseType.FIXED_MESSAGE,
-          content: "Thank you for your interest!",
-        },
+          content: "Thank you for your interest!"
+        }
       ],
       createdAt: new Date().toISOString(),
-      isActive: false,
+      isActive: false
     };
 
     this.workflows.push(newWorkflow);
@@ -133,21 +133,21 @@ export class WorkflowService {
     const newWorkflow = {
       ...workflow,
       id: newId,
-      createdAt: workflow.createdAt || new Date().toISOString(),
+      createdAt: workflow.createdAt || new Date().toISOString()
     };
     this.workflows.push(newWorkflow);
     return newWorkflow;
   }
 
   public updateWorkflow(id: number, workflow: Workflow): Workflow {
-    const index = this.workflows.findIndex((w) => w.id === id);
+    const index = this.workflows.findIndex(w => w.id === id);
     if (index === -1) {
       throw new Error(`Workflow with id ${id} not found`);
     }
 
     const updatedWorkflow = {
       ...workflow,
-      id,
+      id
     };
 
     this.workflows[index] = updatedWorkflow;
@@ -155,7 +155,7 @@ export class WorkflowService {
   }
 
   public deleteWorkflow(id: number): void {
-    const index = this.workflows.findIndex((w) => w.id === id);
+    const index = this.workflows.findIndex(w => w.id === id);
     if (index !== -1) {
       this.workflows.splice(index, 1);
     }
@@ -170,7 +170,7 @@ export class WorkflowService {
       for (const trigger of workflow.triggers) {
         if (trigger.type === type) {
           // Check if any keywords match
-          const matchesKeyword = trigger.keywords.some((keyword) =>
+          const matchesKeyword = trigger.keywords.some(keyword =>
             message.toLowerCase().includes(keyword.toLowerCase())
           );
 

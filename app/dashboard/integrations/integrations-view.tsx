@@ -34,7 +34,7 @@ const integrations: Integration[] = [
     color: "text-pink-500",
     bgColor: "bg-pink-500/10",
     connected: false,
-    detailsPath: "/dashboard/integrations/instagram",
+    detailsPath: "/dashboard/integrations/instagram"
   },
   {
     id: "whatsapp",
@@ -43,7 +43,7 @@ const integrations: Integration[] = [
     icon: FaWhatsapp,
     color: "text-green-500",
     bgColor: "bg-green-500/10",
-    connected: false,
+    connected: false
   },
   {
     id: "google-sheets",
@@ -52,8 +52,8 @@ const integrations: Integration[] = [
     icon: SiGooglesheets,
     color: "text-blue-500",
     bgColor: "bg-blue-500/10",
-    connected: false,
-  },
+    connected: false
+  }
 ];
 
 // Previously available integrations
@@ -65,7 +65,7 @@ const availableIntegrations: Integration[] = [
     icon: FaTwitter,
     color: "text-sky-500",
     bgColor: "bg-sky-500/10",
-    connected: true,
+    connected: true
   },
   {
     id: "facebook",
@@ -74,8 +74,8 @@ const availableIntegrations: Integration[] = [
     icon: FaFacebookF,
     color: "text-blue-600",
     bgColor: "bg-blue-600/10",
-    connected: false,
-  },
+    connected: false
+  }
 ];
 
 export function IntegrationsView() {
@@ -84,7 +84,7 @@ export function IntegrationsView() {
   const [searchQuery, setSearchQuery] = useState("");
   const [integrationsState, setIntegrationsState] = useState<Integration[]>([
     ...integrations,
-    ...availableIntegrations,
+    ...availableIntegrations
   ]);
 
   // Check if we have any connected integrations in localStorage
@@ -101,8 +101,8 @@ export function IntegrationsView() {
           instagramSessionData = JSON.parse(instagramSession);
           if (instagramSessionData && instagramSessionData.profile && instagramSessionData.profile.id) {
             // Update the connected status for Instagram
-            setIntegrationsState((prevState) =>
-              prevState.map((integration) =>
+            setIntegrationsState(prevState =>
+              prevState.map(integration =>
                 integration.id === "instagram" ? { ...integration, connected: true } : integration
               )
             );
@@ -118,7 +118,7 @@ export function IntegrationsView() {
     checkInstagramConnection();
   }, []); // Empty dependency array to run only once
 
-  const filteredIntegrations = integrationsState.filter((integration) =>
+  const filteredIntegrations = integrationsState.filter(integration =>
     integration.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -143,8 +143,8 @@ export function IntegrationsView() {
         // Remove Instagram session
         localStorage.removeItem("instagram_session");
         // Update state to show disconnected
-        setIntegrationsState((prevState) =>
-          prevState.map((integration) =>
+        setIntegrationsState(prevState =>
+          prevState.map(integration =>
             integration.id === "instagram" ? { ...integration, connected: false } : integration
           )
         );
@@ -176,13 +176,13 @@ export function IntegrationsView() {
             className="w-full md:max-w-md bg-gray-800 border-gray-700 text-white"
             prefix={<Search className="h-4 w-4 text-gray-400" />}
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={e => setSearchQuery(e.target.value)}
           />
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filteredIntegrations.map((integration) => (
+        {filteredIntegrations.map(integration => (
           <Card
             key={integration.id}
             className={`bg-gray-800 border-gray-700 ${
@@ -190,8 +190,7 @@ export function IntegrationsView() {
                 ? "cursor-pointer hover:bg-gray-700 transition-colors"
                 : ""
             }`}
-            onClick={() => handleCardClick(integration)}
-          >
+            onClick={() => handleCardClick(integration)}>
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div className={`p-2 rounded-md ${integration.bgColor}`}>
@@ -200,8 +199,7 @@ export function IntegrationsView() {
                 <div
                   className={`text-xs px-2 py-1 rounded-full ${
                     integration.connected ? "bg-green-900/20 text-green-400" : "bg-gray-700 text-gray-400"
-                  }`}
-                >
+                  }`}>
                   {integration.connected ? "Connected" : "Not Connected"}
                 </div>
               </div>
@@ -214,17 +212,16 @@ export function IntegrationsView() {
                 className={
                   integration.connected ? "bg-red-600 hover:bg-red-700 w-full" : "bg-blue-600 hover:bg-blue-700 w-full"
                 }
-                onClick={(e) => {
+                onClick={e => {
                   e.stopPropagation(); // Prevent card click event
                   integration.connected ? handleDisconnect(integration.id) : handleConnect(integration.id);
-                }}
-              >
+                }}>
                 {integration.connected ? "Disconnect" : "Connect"}
               </Button>
 
               {integration.connected && integration.detailsPath && (
                 <Button variant="outline" className="w-full" asChild>
-                  <Link href={integration.detailsPath} onClick={(e) => e.stopPropagation()}>
+                  <Link href={integration.detailsPath} onClick={e => e.stopPropagation()}>
                     View Details
                   </Link>
                 </Button>
