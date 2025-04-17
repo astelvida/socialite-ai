@@ -9,20 +9,31 @@ export enum ResponseType {
 }
 
 export interface Workflow {
-  id?: number
-  name: string
+  id?: number;
+  name: string;
   triggers: {
-    type: TriggerType
-    description: string
-    keywords: string[]
-    additionalInfo: string
-    index?: number
-  }[]
+    type: TriggerType;
+    description: string;
+    keywords: string[];
+    additionalInfo: string;
+    index?: number;
+  }[];
   responses: {
-    type: ResponseType
-    content?: string
-    aiPrompt?: string
-  }[]
-  createdAt?: string
-  isActive?: boolean
+    type: ResponseType;
+    content?: string;
+    aiPrompt?: string;
+  }[];
+  createdAt?: string;
+  isActive?: boolean;
+}
+
+export interface InstagramMedia {
+  id: string;
+  caption?: string;
+  media_type: "IMAGE" | "VIDEO" | "CAROUSEL_ALBUM";
+  media_url: string;
+  permalink: string;
+  thumbnail_url?: string;
+  timestamp: string;
+  username: string;
 }

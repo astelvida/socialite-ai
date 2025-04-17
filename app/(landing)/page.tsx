@@ -1,6 +1,7 @@
+import { ModeToggle } from "@/components/mode-toggle";
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { SignInButton, SignUpButton, SignedIn, SignedOut } from "@clerk/nextjs";
+import { SignInButton, SignUpButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { ArrowRight, Code, Globe, Layers, Workflow } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,6 +9,20 @@ import Link from "next/link";
 export default function HomePage() {
   return (
     <div className="flex flex-col min-h-[calc(100vh-64px)]">
+      <header className="bg-background p-2">
+        <div className="container  flex items-center justify-end gap-4">
+          <SignedOut>
+            <SignInButton />
+          </SignedOut>
+          <SignedIn>
+            <Button asChild variant="default">
+              <Link href="/dashboard">My Dashboard</Link>
+            </Button>
+            <UserButton />
+          </SignedIn>
+          <ModeToggle />
+        </div>
+      </header>
       {/* Hero Section */}
       <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-background to-muted">
         <div className="container px-4 md:px-6">
@@ -59,7 +74,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
       {/* Features Section */}
       <section className="w-full py-12 md:py-24 lg:py-32">
         <div className="container px-4 md:px-6">
@@ -110,7 +124,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
       {/* CTA Section */}
       <section className="w-full py-12 md:py-24 lg:py-32 bg-muted">
         <div className="container px-4 md:px-6">
@@ -164,7 +177,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
       {/* Footer */}
       <footer className="w-full py-6 border-t mt-auto">
         <div className="container px-4 md:px-6">

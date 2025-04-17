@@ -1,4 +1,4 @@
-import type { Config } from "tailwindcss"
+import type { Config } from "tailwindcss";
 
 const config: Config = {
   darkMode: ["class"],
@@ -19,6 +19,8 @@ const config: Config = {
     },
     extend: {
       colors: {
+        "radial-gradient": "hsl(var(--radial-gradient))",
+        "radial-gradient-foreground": "hsl(var(--radial-gradient-foreground))",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -75,6 +77,6 @@ const config: Config = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-}
+};
 
-export default config
+export default config;
