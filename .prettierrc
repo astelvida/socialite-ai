@@ -1,0 +1,27 @@
+{
+  "bracketSpacing": true,
+  "printWidth": 120,
+  "singleQuote": false,
+  "tabWidth": 2,
+  "trailingComma": "none",
+  "arrowParens": "avoid",
+  "bracketSameLine": true,
+  "endOfLine": "auto",
+  "semi": true,
+  "useTabs": false,
+  "singleAttributePerLine": false,
+  "quoteProps": "as-needed",
+  "proseWrap": "preserve",
+  "embeddedLanguageFormatting": "auto",
+  "jsxSingleQuote": false,
+  "htmlWhitespaceSensitivity": "css",
+  "overrides": [
+    {
+      "files": "*.json",
+      "options": {
+        "bracketSpacing": false,
+        "printWidth": 9999
+      }
+    }
+  ]
+}

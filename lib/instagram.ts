@@ -1,3 +1,5 @@
+import { error } from "console";
+
 interface InstagramTokenResponse {
   access_token: string;
   user_id: string;
@@ -100,11 +102,7 @@ export const getInstagramAccessToken = async (code: string): Promise<InstagramTo
 
   // Parse the response which contains short-lived token
   const data = await response.json();
-  console.log("access token data", data);
-  return {
-    access_token: data.access_token,
-    user_id: data.user_id,
-  };
+  return data;
 };
 
 /**
@@ -128,7 +126,6 @@ export const getLongLivedAccessToken = async (shortLivedToken: string): Promise<
   }
 
   const data = await response.json();
-  console.log("long-lived token data", data);
   return data;
 };
 
@@ -154,22 +151,24 @@ export const refreshLongLivedToken = async (longLivedToken: string): Promise<Ins
 /**
  * Get the Instagram user profile
  * Using v22.0 as specified in the documentation
+ *
+ *
  */
 export const getInstagramUserProfile = async (
   accessToken: string
   // userId: string
 ): Promise<InstagramUserProfile> => {
-  const url = `https://graph.instagram.com/v22.0/me?fields=id,username,profile_picture_url,user_id,account_type,media_count&access_token=${accessToken}`;
+  const fields = "id,user_id,username,name,profile_picture_url,account_type,follows_count,followers_count,media_count";
+
+  const url = `https://graph.instagram.com/v22.0/me?fields=${fields}&access_token=${accessToken}`;
   console.log("url", url);
   const response = await fetch(url);
 
   if (!response.ok) {
-    const error = await response.json();
     throw new Error(`Failed to get user profile: ${JSON.stringify(error)}`);
   }
 
   const data = await response.json();
-  console.log("user profile data", data);
 
   return data;
 };
@@ -182,7 +181,7 @@ export const getInstagramMedia = async (
   accessToken: string
   // userId: string
 ): Promise<InstagramMedia[]> => {
-  const url = `https://graph.instagram.com/v22.0/me/media?fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp,username&limit=6&access_token=${accessToken}`;
+  const url = `https://graph.instagram.com/v22.0/me/media?fields=id,owner,caption,media_type,media_url,permalink,thumbnail_url,timestamp,username&limit=6&access_token=${accessToken}`;
 
   const response = await fetch(url);
 
@@ -192,6 +191,7 @@ export const getInstagramMedia = async (
   }
 
   const data = await response.json();
+
   console.log("media data", data);
   return data.data;
 };

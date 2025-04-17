@@ -99,11 +99,7 @@ export function IntegrationsView() {
       if (instagramSession) {
         try {
           instagramSessionData = JSON.parse(instagramSession);
-          if (
-            instagramSessionData &&
-            instagramSessionData.profile &&
-            instagramSessionData.profile.id
-          ) {
+          if (instagramSessionData && instagramSessionData.profile && instagramSessionData.profile.id) {
             // Update the connected status for Instagram
             setIntegrationsState((prevState) =>
               prevState.map((integration) =>
@@ -203,9 +199,7 @@ export function IntegrationsView() {
                 </div>
                 <div
                   className={`text-xs px-2 py-1 rounded-full ${
-                    integration.connected
-                      ? "bg-green-900/20 text-green-400"
-                      : "bg-gray-700 text-gray-400"
+                    integration.connected ? "bg-green-900/20 text-green-400" : "bg-gray-700 text-gray-400"
                   }`}
                 >
                   {integration.connected ? "Connected" : "Not Connected"}
@@ -218,15 +212,11 @@ export function IntegrationsView() {
               <Button
                 variant={integration.connected ? "destructive" : "default"}
                 className={
-                  integration.connected
-                    ? "bg-red-600 hover:bg-red-700 w-full"
-                    : "bg-blue-600 hover:bg-blue-700 w-full"
+                  integration.connected ? "bg-red-600 hover:bg-red-700 w-full" : "bg-blue-600 hover:bg-blue-700 w-full"
                 }
                 onClick={(e) => {
                   e.stopPropagation(); // Prevent card click event
-                  integration.connected
-                    ? handleDisconnect(integration.id)
-                    : handleConnect(integration.id);
+                  integration.connected ? handleDisconnect(integration.id) : handleConnect(integration.id);
                 }}
               >
                 {integration.connected ? "Disconnect" : "Connect"}
