@@ -1,6 +1,6 @@
 "use client";
 
-import { InstagramFeed } from "@/components/instagram/InstagramFeed";
+import { InstagramFeed } from "@/components/instagram/instagram-feed";
 import { Button } from "@/components/ui/button";
 import {
   Card,
