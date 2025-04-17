@@ -1,15 +1,8 @@
 "use client";
 
-import { InstagramFeed } from "@/components/instagram/instagram-feed";
+import { InstagramFeed } from "@/app/dashboard/integrations/instagram/instagram-feed";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useInstagramToken } from "@/hooks/use-instagram-token";
 import { format } from "date-fns";
 import Link from "next/link";
@@ -127,9 +120,7 @@ export default function InstagramIntegrationPage() {
                     </CardDescription>
                   </div>
                 </div>
-                <div className="text-xs px-2 py-1 rounded-full bg-green-900/20 text-green-400">
-                  Connected
-                </div>
+                <div className="text-xs px-2 py-1 rounded-full bg-green-900/20 text-green-400">Connected</div>
               </div>
             </CardHeader>
             <CardContent>
@@ -140,11 +131,7 @@ export default function InstagramIntegrationPage() {
                     <p>
                       Access Token Expires: {formatExpiryDate(tokenExpires)}
                       {daysUntilExpiry !== null && (
-                        <span
-                          className={`ml-2 ${
-                            daysUntilExpiry < 10 ? "text-amber-500" : "text-green-500"
-                          }`}
-                        >
+                        <span className={`ml-2 ${daysUntilExpiry < 10 ? "text-amber-500" : "text-green-500"}`}>
                           ({daysUntilExpiry} days remaining)
                         </span>
                       )}
@@ -158,11 +145,7 @@ export default function InstagramIntegrationPage() {
             </CardContent>
             <CardFooter className="flex justify-between">
               <Button variant="outline" asChild>
-                <a
-                  href={`https://instagram.com/${profile.username}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <a href={`https://instagram.com/${profile.username}`} target="_blank" rel="noopener noreferrer">
                   View Profile
                 </a>
               </Button>
@@ -173,7 +156,7 @@ export default function InstagramIntegrationPage() {
           </Card>
 
           <h2 className="text-xl font-bold mb-4">Your Instagram Media</h2>
-          <InstagramFeed limit={9} loadFromApi={true} />
+          <InstagramFeed username={profile.username} limit={9} loadFromApi={true} token={token} />
         </>
       )}
     </div>

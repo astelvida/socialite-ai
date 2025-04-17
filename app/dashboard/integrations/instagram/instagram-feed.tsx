@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useInstagramToken } from "@/hooks/use-instagram-token";
 import { getInstagramMedia } from "@/lib/instagram";
 import { useEffect, useState } from "react";
 
@@ -22,13 +21,14 @@ interface InstagramFeedProps {
   limit?: number;
   username?: string;
   loadFromApi?: boolean;
+  token?: string;
 }
 
-export function InstagramFeed({ limit = 6, username, loadFromApi = false }: InstagramFeedProps) {
+export function InstagramFeed({ limit = 6, username, loadFromApi = false, token }: InstagramFeedProps) {
   const [media, setMedia] = useState<InstagramMedia[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { token, isAuthenticated, isLoading: tokenLoading } = useInstagramToken();
+  // const { token, isAuthenticated, isLoading: tokenLoading } = useInstagramToken();
 
   useEffect(() => {
     async function fetchMediaFromApi() {
@@ -53,9 +53,7 @@ export function InstagramFeed({ limit = 6, username, loadFromApi = false }: Inst
         const mediaItems = await getInstagramMedia(token);
 
         // Filter by username if provided
-        const filteredMedia = username
-          ? mediaItems.filter((item) => item.username === username)
-          : mediaItems;
+        const filteredMedia = username ? mediaItems.filter((item) => item.username === username) : mediaItems;
 
         // Apply limit and set media
         setMedia(filteredMedia.slice(0, limit));
@@ -90,9 +88,7 @@ export function InstagramFeed({ limit = 6, username, loadFromApi = false }: Inst
             setError("No Instagram data available");
           } else {
             // Filter by username if provided
-            const filteredMedia = username
-              ? media.filter((item: InstagramMedia) => item.username === username)
-              : media;
+            const filteredMedia = username ? media.filter((item: InstagramMedia) => item.username === username) : media;
 
             // Apply limit and set media
             setMedia(filteredMedia.slice(0, limit));
@@ -109,18 +105,13 @@ export function InstagramFeed({ limit = 6, username, loadFromApi = false }: Inst
       }
     }
 
-    // Don't do anything until we know if we have a valid token
-    if (tokenLoading) {
-      return;
-    }
-
     // Either load from API or from localStorage
-    if (loadFromApi && isAuthenticated) {
+    if (loadFromApi && token) {
       fetchMediaFromApi();
     } else {
       loadMediaFromLocalStorage();
     }
-  }, [limit, username, loadFromApi, token, isAuthenticated, tokenLoading]);
+  }, [limit, username, loadFromApi, token]);
 
   if (loading || tokenLoading) {
     return (

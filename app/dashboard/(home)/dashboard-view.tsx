@@ -1,6 +1,6 @@
 "use client";
 
-import { ActivityChart } from "@/components/dashboard/activity-chart";
+import { ActivityChart } from "@/app/dashboard/(home)/activity-chart";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -63,11 +63,7 @@ export function DashboardView() {
             prefix={<Search className="h-4 w-4 text-gray-400" />}
           />
         </div>
-        <Button
-          className="bg-blue-600 hover:bg-blue-700"
-          onClick={handleCreateAutomation}
-          disabled={isCreating}
-        >
+        <Button className="bg-blue-600 hover:bg-blue-700" onClick={handleCreateAutomation} disabled={isCreating}>
           <Zap className="h-4 w-4 mr-2" />
           {isCreating ? "Creating..." : "Create an Automation"}
         </Button>
@@ -83,14 +79,10 @@ export function DashboardView() {
           <Card className="bg-gradient-to-br from-blue-900 to-blue-950 border-gray-800">
             <CardHeader>
               <CardTitle>Set-up Auto Replies</CardTitle>
-              <CardDescription className="text-gray-300">
-                Deliver a product lineup through Instagram DM
-              </CardDescription>
+              <CardDescription className="text-gray-300">Deliver a product lineup through Instagram DM</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-gray-300 mb-4">
-                Get products in front of your followers in as many places
-              </p>
+              <p className="text-sm text-gray-300 mb-4">Get products in front of your followers in as many places</p>
               <div className="flex justify-end">
                 <Button
                   variant="ghost"
@@ -107,14 +99,10 @@ export function DashboardView() {
           <Card className="bg-gradient-to-br from-blue-900 to-blue-950 border-gray-800">
             <CardHeader>
               <CardTitle>Answer Questions with AI</CardTitle>
-              <CardDescription className="text-gray-300">
-                Identify and respond to queries with AI
-              </CardDescription>
+              <CardDescription className="text-gray-300">Identify and respond to queries with AI</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-gray-300 mb-4">
-                The intention of the message will be automatically detected
-              </p>
+              <p className="text-sm text-gray-300 mb-4">The intention of the message will be automatically detected</p>
               <div className="flex justify-end">
                 <Button
                   variant="ghost"
@@ -131,14 +119,10 @@ export function DashboardView() {
           <Card className="bg-gradient-to-br from-blue-900 to-blue-950 border-gray-800">
             <CardHeader>
               <CardTitle>Answer Questions with AI</CardTitle>
-              <CardDescription className="text-gray-300">
-                Identify and respond to queries with AI
-              </CardDescription>
+              <CardDescription className="text-gray-300">Identify and respond to queries with AI</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-gray-300 mb-4">
-                The intention of the message will be automatically detected
-              </p>
+              <p className="text-sm text-gray-300 mb-4">The intention of the message will be automatically detected</p>
               <div className="flex justify-end">
                 <Button
                   variant="ghost"

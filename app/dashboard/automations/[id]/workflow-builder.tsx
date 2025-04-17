@@ -1,25 +1,25 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
-import { ResponseSection } from "@/components/workflow/response-section"
-import { TriggerSection } from "@/components/workflow/trigger-section"
-import { useIsMobile } from "@/hooks/use-mobile"
-import { type Workflow, ResponseType, TriggerType } from "@/lib/types"
-import { workflowService } from "@/lib/workflow-service"
-import { Pencil, Play } from "lucide-react"
-import { useRouter } from "next/navigation"
-import { useState } from "react"
-import { toast } from "sonner"
+import { ResponseSection } from "@/app/dashboard/automations/[id]/response-section";
+import { TriggerSection } from "@/app/dashboard/automations/[id]/trigger-section";
+import { Button } from "@/components/ui/button";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { type Workflow, ResponseType, TriggerType } from "@/lib/types";
+import { workflowService } from "@/lib/workflow-service";
+import { Pencil, Play } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
 
 interface WorkflowBuilderProps {
-  initialWorkflow?: Workflow
-  workflowId?: number
+  initialWorkflow?: Workflow;
+  workflowId?: number;
 }
 
 export function WorkflowBuilder({ initialWorkflow, workflowId }: WorkflowBuilderProps) {
-  const router = useRouter()
-  const isMobile = useIsMobile()
-  const [isSaving, setIsSaving] = useState(false)
+  const router = useRouter();
+  const isMobile = useIsMobile();
+  const [isSaving, setIsSaving] = useState(false);
   const [workflow, setWorkflow] = useState<Workflow>(
     initialWorkflow || {
       id: undefined,
@@ -41,69 +41,69 @@ export function WorkflowBuilder({ initialWorkflow, workflowId }: WorkflowBuilder
       ],
       createdAt: new Date().toISOString(),
       isActive: false,
-    },
-  )
+    }
+  );
 
   const addTrigger = (trigger: Workflow["triggers"][0]) => {
     setWorkflow((prev) => ({
       ...prev,
       triggers: [...prev.triggers, trigger],
-    }))
-  }
+    }));
+  };
 
   const updateTrigger = (index: number, trigger: Workflow["triggers"][0]) => {
     setWorkflow((prev) => ({
       ...prev,
       triggers: prev.triggers.map((t, i) => (i === index ? trigger : t)),
-    }))
-  }
+    }));
+  };
 
   const removeTrigger = (index: number) => {
     setWorkflow((prev) => ({
       ...prev,
       triggers: prev.triggers.filter((_, i) => i !== index),
-    }))
-  }
+    }));
+  };
 
   const setResponse = (response: Workflow["responses"][0]) => {
     setWorkflow((prev) => ({
       ...prev,
       responses: [response],
-    }))
-  }
+    }));
+  };
 
   const saveWorkflow = () => {
-    setIsSaving(true)
+    setIsSaving(true);
     try {
       if (workflowId !== undefined) {
-        workflowService.updateWorkflow(workflowId, workflow)
+        workflowService.updateWorkflow(workflowId, workflow);
         toast.success("Automation updated", {
           description: "Your automation has been updated successfully.",
-        })
+        });
       } else {
-        workflowService.createWorkflow(workflow)
+        workflowService.createWorkflow(workflow);
         toast.success("Automation created", {
           description: "Your automation has been created successfully.",
-        })
+        });
       }
       router.push("/dashboard/automations");
     } catch (error) {
       toast.error("Error", {
         description: "There was an error saving your automation.",
-      })
+      });
     } finally {
-      setIsSaving(false)
+      setIsSaving(false);
     }
-  }
+  };
 
   const activateWorkflow = () => {
     setWorkflow((prev) => ({
       ...prev,
       isActive: true,
-    }))
+    }));
 
-    saveWorkflow()
-  }
+    saveWorkflow();
+  };
 
   return (
     <div className="flex flex-col h-full">
@@ -117,8 +117,8 @@ export function WorkflowBuilder({ initialWorkflow, workflowId }: WorkflowBuilder
             <Pencil
               className="h-4 w-4 ml-2 text-gray-400 cursor-pointer"
               onClick={() => {
-                const name = prompt("Enter automation name", workflow.name)
-                if (name) setWorkflow((prev) => ({ ...prev, name }))
+                const name = prompt("Enter automation name", workflow.name);
+                if (name) setWorkflow((prev) => ({ ...prev, name }));
               }}
             />
           </div>
@@ -173,5 +173,5 @@ export function WorkflowBuilder({ initialWorkflow, workflowId }: WorkflowBuilder
         </div>
       </div>
     </div>
-  )
+  );
 }

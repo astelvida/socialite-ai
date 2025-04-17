@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 export function ActivityChart() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -79,15 +78,12 @@ export function ActivityChart() {
     ctx.font = "12px Inter, sans-serif";
     ctx.textAlign = "center";
 
-    if (isLoading) {
-      ctx.fillText("Loading...", canvas.width / 2, canvas.height / 2);
-    } else {
-      for (let i = 0; i < days.length; i++) {
-        const x = (canvas.width / (days.length - 1)) * i;
-        ctx.fillText(days[i], x, canvas.height - 5);
-      }
+    ctx.fillText("Loading...", canvas.width / 2, canvas.height / 2);
+    for (let i = 0; i < days.length; i++) {
+      const x = (canvas.width / (days.length - 1)) * i;
+      ctx.fillText(days[i], x, canvas.height - 5);
     }
-  }, [isLoading]);
+  }, []);
 
   return (
     <div className="w-full h-[150px] relative">

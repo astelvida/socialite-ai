@@ -111,9 +111,7 @@ export const getInstagramAccessToken = async (code: string): Promise<InstagramTo
  * Exchange a short-lived token for a long-lived token
  * As per documentation: https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login/business-login/
  */
-export const getLongLivedAccessToken = async (
-  shortLivedToken: string
-): Promise<InstagramLongLivedTokenResponse> => {
+export const getLongLivedAccessToken = async (shortLivedToken: string): Promise<InstagramLongLivedTokenResponse> => {
   const appSecret = process.env.INSTAGRAM_APP_SECRET;
 
   if (!appSecret) {
@@ -138,9 +136,7 @@ export const getLongLivedAccessToken = async (
  * Refresh a long-lived token
  * As per documentation: https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login/business-login/
  */
-export const refreshLongLivedToken = async (
-  longLivedToken: string
-): Promise<InstagramLongLivedTokenResponse> => {
+export const refreshLongLivedToken = async (longLivedToken: string): Promise<InstagramLongLivedTokenResponse> => {
   const response = await fetch(
     `https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=${longLivedToken}`
   );

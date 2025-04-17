@@ -5,7 +5,19 @@ const globalForPrisma = global as unknown as {
   prisma: PrismaClient;
 };
 
-const prisma = globalForPrisma.prisma || new PrismaClient().$extends(withAccelerate());
+// Configure Prisma client with proper connection pooling
+const prismaClientSingleton = () => {
+  return new PrismaClient({
+    log: ["error", "warn"],
+    datasources: {
+      db: {
+        url: process.env.DATABASE_URL,
+      },
+    },
+  }).$extends(withAccelerate());
+};
+
+const prisma = globalForPrisma.prisma || prismaClientSingleton();
 
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
 

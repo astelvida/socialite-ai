@@ -1,5 +1,5 @@
-import { IntegrationsView } from "@/components/integrations/integrations-view";
-import { IntegrationsViewContainer } from "@/components/integrations/integrtaion-view-container";
+import { IntegrationsContainer } from "@/app/dashboard/integrations/integrations-container";
+import { IntegrationsView } from "@/app/dashboard/integrations/integrations-view";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
@@ -15,16 +15,12 @@ export default async function IntegrationsPage(props: Props) {
     redirect("/");
   }
 
-  const instagramData = searchParams["instagram_data"];
-  const instagramError = searchParams["instagram_error"];
+  const instagramData = searchParams["instagram_data"]?.toString() ?? "";
+  const instagramError = searchParams["instagram_error"]?.toString() ?? "";
 
   return (
-    <IntegrationsViewContainer
-      userId={userId}
-      instagramData={instagramData}
-      instagramError={instagramError}
-    >
+    <IntegrationsContainer userId={userId} instagramData={instagramData} instagramError={instagramError}>
       <IntegrationsView />
-    </IntegrationsViewContainer>
+    </IntegrationsContainer>
   );
 }

@@ -1,8 +1,8 @@
 "use client";
 
+import { WorkflowBuilder } from "@/app/dashboard/automations/[id]/workflow-builder";
 import { MainContent } from "@/components/layout/main-content";
 import { Sidebar } from "@/components/sidebar/sidebar";
-import { WorkflowBuilder } from "@/components/workflow/workflow-builder";
 import type { Workflow } from "@/lib/types";
 import { workflowService } from "@/lib/workflow-service";
 import { useParams, useRouter } from "next/navigation";
@@ -62,13 +62,8 @@ export default function AutomationPage() {
           <div className="flex h-full items-center justify-center">
             <div className="text-center">
               <h1 className="text-4xl font-bold mb-4">404 - Automation Not Found</h1>
-              <p className="text-gray-400 mb-8">
-                The automation you're looking for doesn't exist or has been removed.
-              </p>
-              <button
-                onClick={() => router.push("/dashboard/automations")}
-                className="text-blue-400 hover:underline"
-              >
+              <p className="text-gray-400 mb-8">The automation you're looking for doesn't exist or has been removed.</p>
+              <button onClick={() => router.push("/dashboard/automations")} className="text-blue-400 hover:underline">
                 Return to Automations
               </button>
             </div>
@@ -95,7 +90,5 @@ export default function AutomationPage() {
   }
 
   // Render workflow builder when workflow is loaded
-  return (
-    workflow && <WorkflowBuilder initialWorkflow={workflow} workflowId={workflow.id as number} />
-  );
+  return workflow && <WorkflowBuilder initialWorkflow={workflow} workflowId={workflow.id as number} />;
 }

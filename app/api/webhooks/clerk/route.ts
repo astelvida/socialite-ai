@@ -1,4 +1,5 @@
 // import client from "@/lib/prisma"
+import prisma from "@/lib/prisma";
 import { WebhookEvent } from "@clerk/nextjs/server";
 import { headers } from "next/headers";
 import { Webhook } from "svix";
@@ -53,19 +54,24 @@ export async function POST(req: Request) {
   console.log(`Received webhook with ID ${id} and event type of ${eventType}`);
   // console.log("Webhook payload:", body)
 
-  // console.dir(evt, { depth: 5 })
-
   if (evt.type === "user.created") {
-    // const user = await client.user.create({
-    //   data: {
-    //     id: evt.data.id,
-    //     email: evt.data.email_addresses[0].email_address,
-    //     firstName: evt.data.first_name,
-    //     lastName: evt.data.last_name,
-    //   },
-    // })
-    // console.log("User created: ", user)
-    // console.log("userId:", evt.data.id)
+    console.log("Creating user in database...");
+
+    console.log("\n---------------------------\n---------------------------\nEVT DATA");
+    console.log(evt.data);
+    console.log("\n---------------------------\n---------------------------\nPAYLOAD");
+    console.log(payload);
+
+    const user = await prisma.user.create({
+      data: {
+        id: evt.data.id,
+        email: evt.data.email_addresses[0].email_address,
+        firstName: evt.data.first_name,
+        lastName: evt.data.last_name,
+      },
+    });
+    console.log("User created: ", user);
+    console.log("userId:", evt.data.id);
   }
 
   return new Response("CLERK Webhook received", { status: 200 });

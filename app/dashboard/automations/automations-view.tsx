@@ -1,9 +1,8 @@
 "use client";
 
-import { AutomationCard } from "@/components/automations/automation-card";
+import { AutomationCard } from "@/app/dashboard/automations/automation-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useIsMobile } from "@/hooks/use-mobile";
 import type { Workflow } from "@/lib/types";
 import { workflowService } from "@/lib/workflow-service";
 import { Search, Zap } from "lucide-react";
@@ -14,7 +13,6 @@ import { toast } from "sonner";
 
 export function AutomationsView() {
   const router = useRouter();
-  const isMobile = useIsMobile();
   const [workflows, setWorkflows] = useState<Workflow[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isCreating, setIsCreating] = useState(false);
@@ -123,9 +121,7 @@ export function AutomationsView() {
         <div className="flex flex-col md:flex-row justify-between items-start gap-4">
           <div>
             <h2 className="text-xl font-bold mb-1">Upgrade to Pro</h2>
-            <p className="text-gray-400">
-              Focus on content creation and let us take care of the rest!
-            </p>
+            <p className="text-gray-400">Focus on content creation and let us take care of the rest!</p>
 
             <div className="mt-4">
               <h3 className="text-2xl font-bold text-purple-400">Smart AI</h3>
@@ -154,11 +150,7 @@ export function AutomationsView() {
           <div className="text-center py-8 text-gray-400">
             <p>No active automations yet</p>
             <div className="mt-6 flex justify-center">
-              <Button
-                className="bg-blue-600 hover:bg-blue-700"
-                onClick={handleCreateAutomation}
-                disabled={isCreating}
-              >
+              <Button className="bg-blue-600 hover:bg-blue-700" onClick={handleCreateAutomation} disabled={isCreating}>
                 Create a New Automation
               </Button>
             </div>
