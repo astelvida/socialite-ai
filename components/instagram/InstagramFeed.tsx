@@ -50,7 +50,7 @@ export function InstagramFeed({ limit = 6, username, loadFromApi = false }: Inst
         }
 
         // Fetch media directly from the Instagram API using the token
-        const mediaItems = await getInstagramMedia(token, session.profile.id);
+        const mediaItems = await getInstagramMedia(token);
 
         // Filter by username if provided
         const filteredMedia = username

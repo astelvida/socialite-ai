@@ -197,5 +197,5 @@ export const getInstagramMedia = async (
 
   const data = await response.json();
   console.log("media data", data);
-  return data;
+  return data.data;
 };
